@@ -58,12 +58,10 @@ class UpgradeAlert extends UpgradeBase {
           countryCode: countryCode,
           minAppVersion: minAppVersion,
           dialogStyle: dialogStyle,
-          // Zaid Variabel
           titleTextStyle: titleTextStyle,
           buttonTextStyle: buttonTextStyle,
           asset: asset,
           textButton: textButton,
-          // Zaid Variabel
         );
 
   @override
