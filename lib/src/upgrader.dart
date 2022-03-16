@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 /*
  * Copyright (c) 2018 Larry Aasen. All rights reserved.
  */
@@ -129,6 +131,13 @@ class Upgrader {
   String? _userIgnoredVersion;
   bool _hasAlerted = false;
   bool _isCriticalUpdate = false;
+
+  // Zaid Variabel
+  TextStyle? titleTextStyle;
+  TextStyle? buttonTextStyle;
+  String? asset;
+  String? textButton;
+  // Zaid Variabel
 
   factory Upgrader() {
     return _singleton;
@@ -342,11 +351,16 @@ class Upgrader {
         _displayed = true;
         Future.delayed(const Duration(milliseconds: 0), () {
           _showDialog(
-              context: context,
-              title: messages!.message(UpgraderMessage.title),
-              message: message(),
-              releaseNotes: shouldDisplayReleaseNotes() ? _releaseNotes : null,
-              canDismissDialog: canDismissDialog);
+            context: context,
+            title: messages!.message(UpgraderMessage.title),
+            message: message(),
+            releaseNotes: shouldDisplayReleaseNotes() ? _releaseNotes : null,
+            canDismissDialog: canDismissDialog,
+            asset: asset,
+            buttonTextStyle: buttonTextStyle,
+            textButton: textButton,
+            titleTextStyle: titleTextStyle,
+          );
         });
       }
     }
@@ -471,12 +485,17 @@ class Upgrader {
     return code;
   }
 
-  void _showDialog(
-      {required BuildContext context,
-      required String? title,
-      required String message,
-      required String? releaseNotes,
-      required bool canDismissDialog}) {
+  void _showDialog({
+    required BuildContext context,
+    required String? title,
+    required String message,
+    required String? releaseNotes,
+    required bool canDismissDialog,
+    TextStyle? titleTextStyle,
+    TextStyle? buttonTextStyle,
+    String? asset,
+    String? textButton,
+  }) {
     if (debugLogging) {
       print('upgrader: showDialog title: $title');
       print('upgrader: showDialog message: $message');
@@ -492,13 +511,122 @@ class Upgrader {
       builder: (BuildContext context) {
         return WillPopScope(
           onWillPop: () async => _shouldPopScope(),
-          child: dialogStyle == UpgradeDialogStyle.material
-              ? _alertDialog(title!, message, releaseNotes, context)
-              : _cupertinoAlertDialog(title!, message, releaseNotes, context),
+          child: updateAlert(context, titleTextStyle, buttonTextStyle, asset,
+              textButton, title),
+          // child: dialogStyle == UpgradeDialogStyle.material
+          //     ? _alertDialog(title!, message, releaseNotes, context)
+          //     : _cupertinoAlertDialog(title!, message, releaseNotes, context),
         );
       },
     );
   }
+
+  // Zaid Alert
+  Material updateAlert(
+    context,
+    TextStyle? titleTextStyle,
+    TextStyle? buttonTextStyle,
+    String? asset,
+    String? textButton,
+    String? title,
+  ) {
+    return Material(
+      color: Colors.transparent,
+      child: Center(
+        child: SizedBox(
+          height: 355,
+          width: double.infinity,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 284,
+                    padding: const EdgeInsets.fromLTRB(15, 128, 15, 30),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            title ?? "Update aplikasi ke yang baru",
+                            textAlign: TextAlign.center,
+                            style: titleTextStyle ??
+                                const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
+                            width: 145,
+                            child: Container(
+                              decoration: BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 2),
+                                  color: Colors.black.withOpacity(0.1),
+                                )
+                              ]),
+                              height: 50,
+                              width: double.infinity,
+                              child: TextButton(
+                                onPressed: () =>
+                                    onUserUpdated(context, !blocked()),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: const Color(0xffF08519),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  shadowColor: const Color(0XFF1E2234),
+                                ),
+                                child: Text(
+                                  textButton ?? "",
+                                  style: buttonTextStyle ??
+                                      const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: asset == null
+                    ? const SizedBox(
+                        height: 164,
+                        width: 164,
+                      )
+                    : Image.asset(
+                        asset,
+                        width: 164,
+                        height: 164,
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  // Zaid Alert
 
   /// Called when the user taps outside of the dialog and [canDismissDialog]
   /// is false. Also called when the back button is pressed. Return true for
