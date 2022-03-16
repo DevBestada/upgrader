@@ -32,6 +32,12 @@ class UpgradeAlert extends UpgradeBase {
     String? countryCode,
     String? minAppVersion,
     UpgradeDialogStyle? dialogStyle,
+    // Zaid Variabel
+    TextStyle? titleTextStyle,
+    TextStyle? buttonTextStyle,
+    String? asset,
+    String? textButton,
+    // Zaid Variabel
   }) : super(
           key: key,
           appcastConfig: appcastConfig,
@@ -52,6 +58,12 @@ class UpgradeAlert extends UpgradeBase {
           countryCode: countryCode,
           minAppVersion: minAppVersion,
           dialogStyle: dialogStyle,
+          // Zaid Variabel
+          titleTextStyle: titleTextStyle,
+          buttonTextStyle: buttonTextStyle,
+          asset: asset,
+          textButton: textButton,
+          // Zaid Variabel
         );
 
   @override

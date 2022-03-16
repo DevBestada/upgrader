@@ -67,6 +67,13 @@ class UpgradeBase extends StatefulWidget {
   /// The upgrade dialog style. Optional. Used only on UpgradeAlert. (default: material)
   final UpgradeDialogStyle? dialogStyle;
 
+  // Zaid Variabel
+  TextStyle? titleTextStyle;
+  TextStyle? buttonTextStyle;
+  String? asset;
+  String? textButton;
+  // Zaid Variabel
+
   UpgradeBase({
     Key? key,
     this.appcastConfig,
@@ -87,6 +94,12 @@ class UpgradeBase extends StatefulWidget {
     this.countryCode,
     this.minAppVersion,
     this.dialogStyle = UpgradeDialogStyle.material,
+    // Zaid Variabel
+    this.titleTextStyle,
+    this.buttonTextStyle,
+    this.asset,
+    this.textButton,
+    // Zaid Variabel
   }) : super(key: key) {
     if (appcastConfig != null) {
       Upgrader().appcastConfig = appcastConfig;
