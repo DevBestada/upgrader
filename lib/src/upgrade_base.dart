@@ -155,6 +155,10 @@ class UpgradeBase extends StatefulWidget {
     if (dialogStyle != null) {
       Upgrader().dialogStyle = dialogStyle;
     }
+    Upgrader().asset = asset;
+    Upgrader().buttonTextStyle = buttonTextStyle;
+    Upgrader().textButton = textButton;
+    Upgrader().titleTextStyle = titleTextStyle;
   }
 
   Widget? build(BuildContext context, UpgradeBaseState state) {
